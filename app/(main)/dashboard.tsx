@@ -1,15 +1,16 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useFocusEffect } from "expo-router";
 import {
     Calendar,
     CheckCircle,
     Droplet,
     Dumbbell,
-    Flame
+    Flame,
 } from "lucide-react-native";
-import { useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { Dimensions, ScrollView, Text, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { BarChart, PieChart } from "react-native-gifted-charts";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 interface MacroNutrients {
   protein: number;
@@ -52,11 +53,13 @@ export default function DashboardScreen() {
     fat: 0,
   });
 
-  useEffect(() => {
-    loadData();
-    loadWorkoutStats();
-    loadTargetData();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      loadData();
+      loadWorkoutStats();
+      loadTargetData();
+    }, []),
+  );
 
   const loadTargetData = async () => {
     const targetStr = await AsyncStorage.getItem("userTarget");

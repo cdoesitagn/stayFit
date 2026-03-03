@@ -10,7 +10,7 @@ import {
     Sun,
     Sunrise,
     Sunset,
-    Trash2
+    Trash2,
 } from "lucide-react-native";
 import { useEffect, useState } from "react";
 import {
@@ -394,7 +394,11 @@ export default function LogCaloriesScreen() {
 
   return (
     <SafeAreaView className="flex-1 bg-gray-50">
-      <ScrollView contentContainerStyle={{ padding: 20 }}>
+      <ScrollView
+        keyboardDismissMode="on-drag"
+        keyboardShouldPersistTaps="handled"
+        contentContainerStyle={{ padding: 20 }}
+      >
         {/* Header */}
         <View className="flex-row items-center justify-between mb-6">
           <View>

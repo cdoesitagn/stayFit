@@ -11,10 +11,10 @@ import {
 import { useState } from "react";
 import {
     Alert,
+    Pressable,
     ScrollView,
     Text,
     TextInput,
-    TouchableOpacity,
     View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -149,6 +149,8 @@ export default function TargetSetupScreen() {
   return (
     <SafeAreaView className="flex-1 bg-indigo-600">
       <ScrollView
+        keyboardDismissMode="on-drag"
+        keyboardShouldPersistTaps="handled"
         contentContainerStyle={{
           flexGrow: 1,
           paddingHorizontal: 24,
@@ -157,7 +159,16 @@ export default function TargetSetupScreen() {
       >
         {/* Header */}
         <View className="items-center mb-8 mt-10">
-          <View className="w-20 h-20 bg-white rounded-3xl items-center justify-center mb-4 shadow-xl">
+          <View
+            className="w-20 h-20 bg-white rounded-3xl items-center justify-center mb-4"
+            style={{
+              shadowColor: "#000",
+              shadowOffset: { width: 0, height: 10 },
+              shadowOpacity: 0.1,
+              shadowRadius: 15,
+              elevation: 10,
+            }}
+          >
             <Target color="#4f46e5" size={40} />
           </View>
           <Text className="text-4xl font-bold text-white mb-2 text-center">
@@ -169,7 +180,16 @@ export default function TargetSetupScreen() {
         </View>
 
         {/* Form */}
-        <View className="bg-white rounded-3xl p-6 shadow-2xl space-y-6">
+        <View
+          className="bg-white rounded-3xl p-6 space-y-6"
+          style={{
+            shadowColor: "#000",
+            shadowOffset: { width: 0, height: 25 },
+            shadowOpacity: 0.15,
+            shadowRadius: 50,
+            elevation: 20,
+          }}
+        >
           {/* Goal Selection */}
           <View>
             <Text className="text-sm font-medium text-gray-700 mb-3 mt-4">
@@ -181,22 +201,34 @@ export default function TargetSetupScreen() {
                 const isSelected = selectedGoal === goal.id;
 
                 return (
-                  <TouchableOpacity
+                  <Pressable
                     key={goal.id}
                     onPress={() => handleGoalSelect(goal.id)}
-                    className={`w-full p-4 rounded-2xl border ${
-                      isSelected
-                        ? "shadow-sm border-indigo-400"
-                        : "border-gray-200"
+                    className={`w-full p-4 rounded-2xl border active:opacity-75 ${
+                      isSelected ? "border-indigo-400" : "border-gray-200"
                     }`}
                     style={{
                       backgroundColor: isSelected ? goal.bgColor : "#ffffff",
+                      ...(isSelected && {
+                        shadowColor: "#000",
+                        shadowOffset: { width: 0, height: 1 },
+                        shadowOpacity: 0.05,
+                        shadowRadius: 2,
+                        elevation: 1,
+                      }),
                     }}
                   >
                     <View className="flex-row items-center gap-4">
                       <View
-                        className="w-12 h-12 rounded-xl items-center justify-center shadow-sm"
-                        style={{ backgroundColor: goal.color[0] }}
+                        className="w-12 h-12 rounded-xl items-center justify-center"
+                        style={{
+                          backgroundColor: goal.color[0],
+                          shadowColor: "#000",
+                          shadowOffset: { width: 0, height: 1 },
+                          shadowOpacity: 0.05,
+                          shadowRadius: 2,
+                          elevation: 1,
+                        }}
                       >
                         <Icon color="white" size={24} />
                       </View>
@@ -217,7 +249,7 @@ export default function TargetSetupScreen() {
                         </Text>
                       </View>
                     </View>
-                  </TouchableOpacity>
+                  </Pressable>
                 );
               })}
             </View>
@@ -387,19 +419,26 @@ export default function TargetSetupScreen() {
 
           {/* Submit Button */}
           <View className="mt-8 mb-4">
-            <TouchableOpacity
+            <Pressable
               onPress={handleSubmit}
               disabled={!selectedGoal || !targetCalories || !isValidTotal}
-              className={`w-full py-4 rounded-xl items-center shadow-sm ${
+              className={`w-full py-4 rounded-xl items-center active:opacity-75 ${
                 !selectedGoal || !targetCalories || !isValidTotal
                   ? "bg-gray-400"
                   : "bg-indigo-600"
               }`}
+              style={{
+                shadowColor: "#000",
+                shadowOffset: { width: 0, height: 1 },
+                shadowOpacity: 0.05,
+                shadowRadius: 2,
+                elevation: 1,
+              }}
             >
               <Text className="text-white font-semibold text-lg">
                 Bắt đầu hành trình
               </Text>
-            </TouchableOpacity>
+            </Pressable>
           </View>
         </View>
       </ScrollView>

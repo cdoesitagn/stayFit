@@ -7,7 +7,7 @@ import {
     Text,
     TextInput,
     TouchableOpacity,
-    View
+    View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Svg, { Circle, Defs, LinearGradient, Stop } from "react-native-svg";
@@ -90,7 +90,11 @@ export default function LogWaterScreen() {
 
   return (
     <SafeAreaView className="flex-1 bg-gray-50">
-      <ScrollView contentContainerStyle={{ padding: 20 }}>
+      <ScrollView
+        keyboardDismissMode="on-drag"
+        keyboardShouldPersistTaps="handled"
+        contentContainerStyle={{ padding: 20 }}
+      >
         {/* Header */}
         <View className="mb-6">
           <Text className="text-3xl font-bold text-gray-900">

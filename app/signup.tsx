@@ -57,6 +57,8 @@ export default function SignupScreen() {
   return (
     <SafeAreaView className="flex-1 bg-purple-600">
       <ScrollView
+        keyboardDismissMode="on-drag"
+        keyboardShouldPersistTaps="handled"
         contentContainerStyle={{
           flexGrow: 1,
           paddingHorizontal: 24,

@@ -1,23 +1,23 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useRouter } from "expo-router";
+import { useFocusEffect, useRouter } from "expo-router";
 import {
-    Activity,
-    Edit,
-    LogOut,
-    Ruler,
-    Target,
-    TrendingUp,
-    User,
-    Weight,
-    Zap,
+  Activity,
+  Edit,
+  LogOut,
+  Ruler,
+  Target,
+  TrendingUp,
+  User,
+  Weight,
+  Zap,
 } from "lucide-react-native";
-import { useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import {
-    ActivityIndicator,
-    ScrollView,
-    Text,
-    TouchableOpacity,
-    View,
+  ActivityIndicator,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -26,16 +26,26 @@ export default function ProfileScreen() {
   const [target, setTarget] = useState<any>(null);
   const router = useRouter();
 
-  useEffect(() => {
-    loadData();
-  }, []);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useFocusEffect(
+    useCallback(() => {
+      loadData();
+    }, []),
+  );
 
   const loadData = async () => {
-    const profileData = await AsyncStorage.getItem("userProfile");
-    const targetData = await AsyncStorage.getItem("userTarget");
+    try {
+      const profileData = await AsyncStorage.getItem("userProfile");
+      const targetData = await AsyncStorage.getItem("userTarget");
 
-    if (profileData) setProfile(JSON.parse(profileData));
-    if (targetData) setTarget(JSON.parse(targetData));
+      if (profileData) setProfile(JSON.parse(profileData));
+      if (targetData) setTarget(JSON.parse(targetData));
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleLogout = async () => {
@@ -48,10 +58,31 @@ export default function ProfileScreen() {
     router.replace("/login");
   };
 
-  if (!profile) {
+  if (isLoading) {
     return (
       <View className="flex-1 items-center justify-center bg-gray-50">
         <ActivityIndicator size="large" color="#ea580c" />
+      </View>
+    );
+  }
+
+  if (!profile) {
+    return (
+      <View className="flex-1 items-center justify-center bg-gray-50 p-6">
+        <Text className="text-xl font-bold text-gray-900 mb-2">
+          Chưa có hồ sơ
+        </Text>
+        <Text className="text-gray-600 text-center mb-6">
+          Bạn cần thiết lập hồ sơ trước khi xem trang này.
+        </Text>
+        <TouchableOpacity
+          onPress={() => router.push("/profile-setup")}
+          className="bg-orange-500 px-6 py-3 rounded-xl shadow-sm"
+        >
+          <Text className="text-white font-semibold flex-row">
+            Thiết lập ngay
+          </Text>
+        </TouchableOpacity>
       </View>
     );
   }

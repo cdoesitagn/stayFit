@@ -1,24 +1,24 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
-  BookTemplate,
-  CheckCircle2,
-  Circle,
-  Clock,
-  Dumbbell,
-  Pause,
-  Play,
-  Plus,
-  RotateCcw,
-  Trash2,
+    BookTemplate,
+    CheckCircle2,
+    Circle,
+    Clock,
+    Dumbbell,
+    Pause,
+    Play,
+    Plus,
+    RotateCcw,
+    Trash2,
 } from "lucide-react-native";
 import { useEffect, useState } from "react";
 import {
-  Alert,
-  ScrollView,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
+    Alert,
+    ScrollView,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -284,7 +284,7 @@ export default function WorkoutPlanScreen() {
       });
     }, 1000);
 
-    setTimerInterval(interval);
+    setTimerInterval(interval as unknown as NodeJS.Timeout);
   };
 
   const pauseRestTimer = () => {
@@ -318,7 +318,11 @@ export default function WorkoutPlanScreen() {
 
   return (
     <SafeAreaView className="flex-1 bg-gray-50">
-      <ScrollView contentContainerStyle={{ padding: 20 }}>
+      <ScrollView
+        keyboardDismissMode="on-drag"
+        keyboardShouldPersistTaps="handled"
+        contentContainerStyle={{ padding: 20 }}
+      >
         {/* Header */}
         <View className="mb-6">
           <Text className="text-3xl font-bold text-gray-900">Workout Plan</Text>

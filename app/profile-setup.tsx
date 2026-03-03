@@ -1,21 +1,22 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router } from "expo-router";
 import {
-    Activity,
-    Calendar,
-    Ruler,
-    User,
-    Weight,
-    Zap,
+  Activity,
+  Calendar,
+  ChevronLeft,
+  Ruler,
+  User,
+  Weight,
+  Zap,
 } from "lucide-react-native";
-import { useState } from "react";
+import React, { useState } from "react";
 import {
-    Alert,
-    ScrollView,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  Alert,
+  ScrollView,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -88,9 +89,20 @@ export default function ProfileSetupScreen() {
     router.replace("/target-setup");
   };
 
+  const handleCancel = async () => {
+    const token = await AsyncStorage.getItem("userToken");
+    if (token) {
+      router.replace("/(main)/dashboard");
+    } else {
+      router.replace("/(main)/dashboard");
+    }
+  };
+
   return (
     <SafeAreaView className="flex-1 bg-green-600">
       <ScrollView
+        keyboardDismissMode="on-drag"
+        keyboardShouldPersistTaps="handled"
         contentContainerStyle={{
           flexGrow: 1,
           paddingHorizontal: 24,
@@ -98,6 +110,16 @@ export default function ProfileSetupScreen() {
         }}
       >
         {/* Header */}
+        <View className="mb-4">
+          <TouchableOpacity
+            onPress={handleCancel}
+            className="flex-row items-center gap-1"
+          >
+            <ChevronLeft color="white" size={24} />
+            <Text className="text-white text-lg font-medium">Hủy bỏ</Text>
+          </TouchableOpacity>
+        </View>
+
         <View className="items-center mb-8">
           <View className="w-20 h-20 bg-white rounded-3xl items-center justify-center mb-4 shadow-xl">
             <User color="#16a34a" size={40} />
